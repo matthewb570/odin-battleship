@@ -1,6 +1,6 @@
 import GameBoard from "../js/GameBoard";
 
-describe("game board", () => {
+describe("game board - ship placement", () => {
     test("ship is placed when specified coordinates are available - vertical", () => {
         let gameBoard = new GameBoard();
         expect(gameBoard.placeShip([0, 0], 5, "vertical")).toBeTruthy();
@@ -84,4 +84,20 @@ describe("game board", () => {
         let gameBoard = new GameBoard();
         expect(gameBoard.placeShip([0, 9], 5, "vertical")).toBeFalsy();
     });
+});
+
+describe("game board - receive attacks", () => {
+    test("attack is recorded", () => {
+        let gameBoard = new GameBoard();
+        gameBoard.receiveAttack([0, 0]);
+        expect(gameBoard.areCoordinatesAttacked([0, 0])).toBeTruthy();
+    });
+
+    test("not attacked location is not marked as attacked", () => {
+        let gameBoard = new GameBoard();
+        gameBoard.receiveAttack([0, 0]);
+        expect(gameBoard.areCoordinatesAttacked([1, 0])).toBeFalsy();
+    });
+
+    // TODO: Add tests for attacking invalid coordinates and ship sinking
 });
