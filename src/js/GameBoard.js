@@ -30,16 +30,20 @@ class GameBoard {
         return true;
     }
 
-    #isShipPlacementValid(coordinates, length, orientation) {
+    #isShipPlacementValid(coordinates, length, orientation) {    
+        let currentX = coordinates[0];
+        let currentY = coordinates[1];
         for (let i = 0; i < length; i++) {
+            if (currentX < 0 || currentX >= GAME_BOARD_WIDTH_HEIGHT ||
+                currentY < 0 || currentY >= GAME_BOARD_WIDTH_HEIGHT ||
+                this.gameBoard[currentX][currentY] !== undefined) {
+                return false;
+            }
+            
             if (orientation === "vertical") {
-                if (this.gameBoard[coordinates[0]][coordinates[1] + i] !== undefined) {
-                    return false;
-                }
+                currentY++;
             } else {
-                if (this.gameBoard[coordinates[0] + i][coordinates[1]] !== undefined) {
-                    return false;
-                }
+                currentX++;
             }
         }
         return true;
