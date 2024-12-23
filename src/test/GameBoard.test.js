@@ -84,6 +84,19 @@ describe("game board - ship placement", () => {
         let gameBoard = new GameBoard();
         expect(gameBoard.placeShip([0, 9], 5, "vertical")).toBeFalsy();
     });
+
+    test("ship found if ship exists at coordinates", () => {
+        let gameBoard = new GameBoard();
+        gameBoard.placeShip([0, 0], 3, "vertical");
+        expect(gameBoard.doesShipExist([0, 0])).toBeTruthy();
+        expect(gameBoard.doesShipExist([0, 1])).toBeTruthy();
+        expect(gameBoard.doesShipExist([0, 2])).toBeTruthy();
+    });
+
+    test("ship not found if ship doesn't exist at coordinates", () => {
+        let gameBoard = new GameBoard();
+        expect(gameBoard.doesShipExist([0, 0])).toBeFalsy();
+    });
 });
 
 describe("game board - receive attacks", () => {

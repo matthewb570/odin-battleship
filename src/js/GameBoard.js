@@ -50,6 +50,11 @@ class GameBoard {
         return this.gameBoard[coordinates[0]][coordinates[1]][0];
     }
 
+    doesShipExist(coordinates) {
+        let ship = this.gameBoard[coordinates[0]][coordinates[1]][1];
+        return ship !== undefined && ship !== null;
+    }
+
     #isShipPlacementValid(coordinates, length, orientation) {    
         let currentX = coordinates[0];
         let currentY = coordinates[1];
