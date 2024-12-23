@@ -34,7 +34,7 @@ class GameBoard {
     }
 
     receiveAttack(coordinates) {
-        if (coordinates[0] < 0 || coordinates[0] >= GAME_BOARD_WIDTH_HEIGHT || coordinates[1] < 0 || coordinates[1] >= GAME_BOARD_WIDTH_HEIGHT || this.gameBoard[coordinates[0]][coordinates[1]][0]) {
+        if (coordinates[0] < 0 || coordinates[0] >= GAME_BOARD_WIDTH_HEIGHT || coordinates[1] < 0 || coordinates[1] >= GAME_BOARD_WIDTH_HEIGHT || this.areCoordinatesAttacked(coordinates)) {
             return false;
         }
         this.gameBoard[coordinates[0]][coordinates[1]][0] = true;
