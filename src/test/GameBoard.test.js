@@ -164,4 +164,27 @@ describe("game board - receive attacks", () => {
         let gameBoard = new GameBoard();
         expect(gameBoard.isShipSunk([0, 0])).toBeFalsy();
     });
+
+    test("all ships reported sunk if all ships are sunk", () => {
+        let gameBoard = new GameBoard();
+        gameBoard.placeShip([0, 0], 3, "vertical");
+        gameBoard.placeShip([1, 0], 3, "vertical");
+        gameBoard.receiveAttack([0, 0]);
+        gameBoard.receiveAttack([0, 1]);
+        gameBoard.receiveAttack([0, 2]);
+        gameBoard.receiveAttack([1, 0]);
+        gameBoard.receiveAttack([1, 1]);
+        gameBoard.receiveAttack([1, 2]);
+        expect(gameBoard.areAllShipsSunk()).toBeTruthy();
+    });
+
+    test("all ships not reported sunk if not all ships are sunk", () => {
+        let gameBoard = new GameBoard();
+        gameBoard.placeShip([0, 0], 3, "vertical");
+        gameBoard.placeShip([1, 0], 3, "vertical");
+        gameBoard.receiveAttack([0, 0]);
+        gameBoard.receiveAttack([0, 1]);
+        gameBoard.receiveAttack([0, 2]);
+        expect(gameBoard.areAllShipsSunk()).toBeFalsy();
+    });
 });

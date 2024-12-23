@@ -5,6 +5,7 @@ const GAME_BOARD_WIDTH_HEIGHT = 10;
 class GameBoard {
     
     gameBoard;
+    ships;
 
     constructor() {
         this.gameBoard = new Array(GAME_BOARD_WIDTH_HEIGHT);
@@ -14,6 +15,8 @@ class GameBoard {
                 this.gameBoard[i][j] = [false, null];
             }
         }
+
+        this.ships = new Array();
     }
 
     placeShip(coordinates, length, orientation) {
@@ -30,6 +33,7 @@ class GameBoard {
                 this.gameBoard[coordinates[0] + i][coordinates[1]][1] = ship;
             }
         }
+        this.ships.push(ship);
         return true;
     }
 
@@ -80,6 +84,15 @@ class GameBoard {
             return false;
         }
         return ship.isSunk();
+    }
+
+    areAllShipsSunk() {
+        return this.ships.reduce((previous, current) => {
+            if (!previous) {
+                return previous;
+            }
+            return current.isSunk();
+        }, true);
     }
 }
 
