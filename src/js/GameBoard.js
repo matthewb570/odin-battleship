@@ -34,7 +34,16 @@ class GameBoard {
     }
 
     receiveAttack(coordinates) {
+        if (coordinates[0] < 0 || coordinates[0] >= GAME_BOARD_WIDTH_HEIGHT || coordinates[1] < 0 || coordinates[1] >= GAME_BOARD_WIDTH_HEIGHT || this.gameBoard[coordinates[0]][coordinates[1]][0]) {
+            return false;
+        }
         this.gameBoard[coordinates[0]][coordinates[1]][0] = true;
+
+        let ship = this.gameBoard[coordinates[0]][coordinates[1]][1];
+        if (ship !== undefined && ship !== null) {
+            ship.hit();
+        }
+        return true;
     }
 
     areCoordinatesAttacked(coordinates) {
@@ -58,6 +67,14 @@ class GameBoard {
             }
         }
         return true;
+    }
+
+    isShipSunk(coordinates) {
+        let ship = this.gameBoard[coordinates[0]][coordinates[1]][1];
+        if (ship === undefined || ship === null) {
+            return false;
+        }
+        return ship.isSunk();
     }
 }
 

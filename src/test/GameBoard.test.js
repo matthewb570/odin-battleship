@@ -99,5 +99,56 @@ describe("game board - receive attacks", () => {
         expect(gameBoard.areCoordinatesAttacked([1, 0])).toBeFalsy();
     });
 
-    // TODO: Add tests for attacking invalid coordinates and ship sinking
+    test("out of bounds attack is not recorded - top", () => {
+        let gameBoard = new GameBoard();
+        expect(gameBoard.receiveAttack([0, -1])).toBeFalsy();
+    });
+
+    test("out of bounds attack is not recorded - right", () => {
+        let gameBoard = new GameBoard();
+        expect(gameBoard.receiveAttack([10, 0])).toBeFalsy();
+    });
+
+    test("out of bounds attack is not recorded - bottom", () => {
+        let gameBoard = new GameBoard();
+        expect(gameBoard.receiveAttack([0, 10])).toBeFalsy();
+    });
+
+    test("out of bounds attack is not recorded - left", () => {
+        let gameBoard = new GameBoard();
+        expect(gameBoard.receiveAttack([-1, 0])).toBeFalsy();
+    });
+
+    test("already attacked coordinate can't be attacked again", () => {
+        let gameBoard = new GameBoard();
+        expect(gameBoard.receiveAttack([0, 0])).toBeTruthy();
+        expect(gameBoard.receiveAttack([0, 0])).toBeFalsy();
+    });
+
+    test("ship is sunk if attacked on all coordinates", () => {
+        let gameBoard = new GameBoard();
+        gameBoard.placeShip([0, 0], 3, "vertical");
+        gameBoard.receiveAttack([0, 0]);
+        gameBoard.receiveAttack([0, 1]);
+        gameBoard.receiveAttack([0, 2]);
+        expect(gameBoard.isShipSunk([0, 0])).toBeTruthy();
+        expect(gameBoard.isShipSunk([0, 1])).toBeTruthy();
+        expect(gameBoard.isShipSunk([0, 2])).toBeTruthy();
+    });
+
+    test("ship is not sunk if only attacked on single coordinate multiple times", () => {
+        let gameBoard = new GameBoard();
+        gameBoard.placeShip([0, 0], 3, "vertical");
+        gameBoard.receiveAttack([0, 0]);
+        gameBoard.receiveAttack([0, 0]);
+        gameBoard.receiveAttack([0, 0]);
+        expect(gameBoard.isShipSunk([0, 0])).toBeFalsy();
+        expect(gameBoard.isShipSunk([0, 1])).toBeFalsy();
+        expect(gameBoard.isShipSunk([0, 2])).toBeFalsy();
+    });
+
+    test("ship is not sunk if queried coordinates don't contain a ship", () => {
+        let gameBoard = new GameBoard();
+        expect(gameBoard.isShipSunk([0, 0])).toBeFalsy();
+    });
 });
