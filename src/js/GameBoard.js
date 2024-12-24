@@ -1,4 +1,4 @@
-import Ship from "./Ship";
+import Ship from "./Ship.js";
 
 const GAME_BOARD_WIDTH_HEIGHT = 10;
 
