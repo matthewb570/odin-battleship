@@ -94,6 +94,14 @@ class GameBoard {
             return current.isSunk();
         }, true);
     }
+
+    getGameBoardWidth() {
+        return GAME_BOARD_WIDTH_HEIGHT;
+    }
+
+    getGameBoardHeight() {
+        return GAME_BOARD_WIDTH_HEIGHT;
+    }
 }
 
 export default GameBoard;
