@@ -1,3 +1,35 @@
-div {
-    color: red;
+.tile-list {
+    display: flex;
+    flex-wrap: wrap;
+    width: 40rem;
+}
+
+.tile {
+    flex: 0 0 auto;
+
+    box-sizing: border-box;
+    width: 4rem;
+    height: 4rem;
+    border-left: solid 1px black;
+    border-top: solid 1px black;
+}
+
+.tile:nth-child(10n) {
+    border-right: solid 1px black;
+}
+
+.tile:nth-last-child(-n + 10) {
+    border-bottom: solid 1px black;
+}
+
+.tile.neutral {
+    background-color: transparent;
+}
+
+.tile.hit {
+    background-color: red; /* TODO: Adjust color */
+}
+
+.tile.miss {
+    background-color: blue; /* TODO: Adjust color */
 }
