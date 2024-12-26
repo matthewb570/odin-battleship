@@ -4,6 +4,7 @@ export default class Game {
     
     player1;
     player2;
+    currentTurn;
 
     constructor() {
         this.player1 = new Player("Player 1", true);
@@ -14,5 +15,11 @@ export default class Game {
 
         this.player2.gameBoard.placeShip([0, 0], 5, "horizontal");
         this.player2.gameBoard.placeShip([5, 5], 3, "vertical");
+
+        this.currentTurn = 0;
+    }
+
+    nextTurn() {
+        this.currentTurn = (this.currentTurn + 1) % 2;
     }
 }
