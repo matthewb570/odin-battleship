@@ -11,8 +11,8 @@ export default class GameBoardDisplay {
     static #createTileList(gameBoard) {
         let divTileList = document.createElement("div");
         divTileList.classList.add("tile-list");
-        for (let i = 0; i < gameBoard.getGameBoardWidth(); i++) {
-            for (let j = 0; j < gameBoard.getGameBoardHeight(); j++) {
+        for (let j = 0; j < gameBoard.getGameBoardWidth(); j++) {
+            for (let i = 0; i < gameBoard.getGameBoardHeight(); i++) {
                 divTileList.appendChild(this.#createTile(gameBoard.areCoordinatesAttacked([i, j]), gameBoard.doesShipExist([i, j])));
             }
         }
