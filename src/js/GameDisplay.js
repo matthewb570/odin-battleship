@@ -22,8 +22,8 @@ export default class GameDisplay {
     static #createLabeledGameBoardList(game, reDrawFunction) {
         let divLabeledGameBoardList = document.createElement("div");
         divLabeledGameBoardList.classList.add("labeled-game-board-list");
-        divLabeledGameBoardList.appendChild(this.#createLabeledGameBoard(game.player1.name, game.player1.gameBoard, reDrawFunction, game.currentTurn !== 0));
-        divLabeledGameBoardList.appendChild(this.#createLabeledGameBoard(game.player2.name, game.player2.gameBoard, reDrawFunction, game.currentTurn !== 1));
+        divLabeledGameBoardList.appendChild(this.#createLabeledGameBoard(game.player1.name, game.player1.gameBoard, reDrawFunction, game.currentTurn !== 0 || game.isOver()));
+        divLabeledGameBoardList.appendChild(this.#createLabeledGameBoard(game.player2.name, game.player2.gameBoard, reDrawFunction, game.currentTurn !== 1 || game.isOver()));
         return divLabeledGameBoardList;
     }
 

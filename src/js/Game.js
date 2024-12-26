@@ -22,4 +22,8 @@ export default class Game {
     nextTurn() {
         this.currentTurn = (this.currentTurn + 1) % 2;
     }
+
+    isOver() {
+        return this.player1.gameBoard.areAllShipsSunk() || this.player2.gameBoard.areAllShipsSunk();
+    }
 }
