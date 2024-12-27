@@ -14,16 +14,40 @@ export default class Game {
     }
 
     nextTurn() {
-        if (!this.isOver()) {
+        if (this.hasUnplacedShips() || !this.isOver()) {
             this.currentTurn = (this.currentTurn + 1) % 2;
-            if (this.currentTurn === 0 && !this.player1.isHuman) {
-                this.#performComputerMove(this.player2.gameBoard);
+        }
+
+        const currentPlayer = this.#getCurrentPlayer();
+        if (!currentPlayer.isHuman) {
+            if (this.hasUnplacedShips()) {
+                this.#performComputerShipPlacements(currentPlayer);
                 this.nextTurn();
-            } else if (this.currentTurn === 1 && !this.player2.isHuman) {
-                this.#performComputerMove(this.player1.gameBoard);
-                this.nextTurn();
+            } else if (!this.isOver()) {
+                if (this.currentTurn === 0) {
+                    this.#performComputerMove(this.player2.gameBoard);
+                    this.nextTurn();
+                } else if (this.currentTurn === 1) {
+                    this.#performComputerMove(this.player1.gameBoard);
+                    this.nextTurn();
+                }
             }
         }
+    }
+
+    #getCurrentPlayer() {
+        if (this.currentTurn === 0) {
+            return this.player1;
+        } else {
+            return this.player2;
+        }
+    }
+
+    #performComputerShipPlacements(player) {
+        for (let i = 0; i < player.unplacedShips.length; i++) {
+            player.gameBoard.placeShip([i, i], player.unplacedShips[i].length, "horizontal");
+        }
+        player.unplacedShips = new Array();
     }
 
     #performComputerMove(gameBoard) {
@@ -40,25 +64,21 @@ export default class Game {
     placeShip(coordinates, unplacedShipIndex, orientation) {
         let success;
         
-        let currentPlayer;
-        if (this.currentTurn === 0) {
-            currentPlayer = this.player1;
-        } else {
-            currentPlayer = this.player2;
-        }
+        let currentPlayer = this.#getCurrentPlayer();
 
         success = currentPlayer.gameBoard.placeShip(coordinates, currentPlayer.unplacedShips[unplacedShipIndex].length, orientation);
         
         if (success) {
             currentPlayer.unplacedShips.splice(unplacedShipIndex, 1);
             if (!currentPlayer.hasUnplacedShips()) {
-                this.currentTurn = (this.currentTurn + 1) % 2;
-                // TODO: Incorporate this with nextTurn();
+                this.nextTurn();
             }
         }
 
         return success;
     }
+
+    // TODO: Add receive attack function that increments the turn afterwards
 
     hasUnplacedShips() {
         return this.player1.hasUnplacedShips() || this.player2.hasUnplacedShips();

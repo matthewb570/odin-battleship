@@ -13,15 +13,15 @@ class Player {
         this.isHuman = isHuman;
         this.gameBoard = new GameBoard();
 
-        this.unplacedShips = new Array(new Ship("Carrier", 5),
-            new Ship("Battleship", 4),
-            new Ship("Destroyer", 3),
-            new Ship("Submarine", 3),
-            new Ship("Patrol Boat", 2));
+        this.unplacedShips = new Array(new Ship(5, "Carrier"),
+            new Ship(4, "Battleship"),
+            new Ship(3, "Destroyer"),
+            new Ship(3, "Submarine"),
+            new Ship(2, "Patrol Boat"));
     }
 
     hasUnplacedShips() {
-        return this.unplacedShips.length >= 0;
+        return this.unplacedShips.length > 0;
     }
 }
 

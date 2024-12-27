@@ -3,7 +3,7 @@ class Ship {
     length;
     hitCount;
     
-    constructor(name, length) {
+    constructor(length, name) {
         this.name = name;
         this.length = length;
         this.hitCount = 0;

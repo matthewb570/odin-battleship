@@ -4,7 +4,6 @@ export default class GameDisplay {
 
     static draw(game, container) {
         let reDrawFunction = () => {
-            game.nextTurn();
             GameDisplay.draw(game, container);
         }
 
