@@ -52,9 +52,7 @@ export default class GameDisplay {
         divShipPlacementPhaseDisplay.appendChild(selectDirection);
 
         let tileClickHandler = (x, y) => {
-            // TODO: Add game function to place ships and remove placed ships from unplaced ships list
-            if (game.player1.gameBoard.placeShip([x, y], game.player1.unplacedShips[selectShips.value].length, selectDirection.value)) {
-                game.player1.unplacedShips.splice(selectShips.value, 1);
+            if (game.placeShip([x, y], selectShips.value, selectDirection.value)) {
                 reDrawFunction();
             }
         }

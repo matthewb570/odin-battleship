@@ -37,6 +37,29 @@ export default class Game {
         }   
     }
 
+    placeShip(coordinates, unplacedShipIndex, orientation) {
+        let success;
+        
+        let currentPlayer;
+        if (this.currentTurn === 0) {
+            currentPlayer = this.player1;
+        } else {
+            currentPlayer = this.player2;
+        }
+
+        success = currentPlayer.gameBoard.placeShip(coordinates, currentPlayer.unplacedShips[unplacedShipIndex].length, orientation);
+        
+        if (success) {
+            currentPlayer.unplacedShips.splice(unplacedShipIndex, 1);
+            if (!currentPlayer.hasUnplacedShips()) {
+                this.currentTurn = (this.currentTurn + 1) % 2;
+                // TODO: Incorporate this with nextTurn();
+            }
+        }
+
+        return success;
+    }
+
     hasUnplacedShips() {
         return this.player1.hasUnplacedShips() || this.player2.hasUnplacedShips();
     }
