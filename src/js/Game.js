@@ -43,6 +43,14 @@ export default class Game {
         }
     }
 
+    #getCurrentPlayerOpponent() {
+        if (this.currentTurn === 0) {
+            return this.player2;
+        } else {
+            return this.player1;
+        }
+    }
+
     #performComputerShipPlacements(player) {
         for (let i = 0; i < player.unplacedShips.length; i++) {
             player.gameBoard.placeShip([i, i], player.unplacedShips[i].length, "horizontal");
@@ -78,7 +86,12 @@ export default class Game {
         return success;
     }
 
-    // TODO: Add receive attack function that increments the turn afterwards
+    receiveAttack(coordinates) {
+        const currentPlayerOpponent = this.#getCurrentPlayerOpponent();
+        if (currentPlayerOpponent.gameBoard.receiveAttack(coordinates)) {
+            this.nextTurn();
+        }
+    }
 
     hasUnplacedShips() {
         return this.player1.hasUnplacedShips() || this.player2.hasUnplacedShips();

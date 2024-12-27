@@ -80,9 +80,9 @@ export default class GameDisplay {
         let isPlayer1GameBoardDisabled = game.currentTurn !== 1 || game.isOver();
         let isPlayer2GameBoardDisabled = game.currentTurn !== 0 || game.isOver();
         
-        let tileClickHandler = (gameBoard, isDisabled, x, y) => {
+        let tileClickHandler = (isDisabled, x, y) => {
             if (!isDisabled) {
-                gameBoard.receiveAttack([x, y]);
+                game.receiveAttack([x, y]);
                 reDrawFunction();
             }
         }
@@ -91,11 +91,11 @@ export default class GameDisplay {
         divLabeledGameBoardList.classList.add("labeled-game-board-list");
         divLabeledGameBoardList.appendChild(this.#createLabeledGameBoard(game.player1.name,
             game.player1.gameBoard,
-            (x, y) => tileClickHandler(game.player1.gameBoard, isPlayer1GameBoardDisabled, x, y),
+            (x, y) => tileClickHandler(isPlayer1GameBoardDisabled, x, y),
             reDrawFunction, isPlayer1GameBoardDisabled));
         divLabeledGameBoardList.appendChild(this.#createLabeledGameBoard(game.player2.name,
             game.player2.gameBoard,
-            (x, y) => tileClickHandler(game.player2.gameBoard, isPlayer2GameBoardDisabled, x, y),
+            (x, y) => tileClickHandler(isPlayer2GameBoardDisabled, x, y),
             reDrawFunction, isPlayer2GameBoardDisabled));
         return divLabeledGameBoardList;
     }
