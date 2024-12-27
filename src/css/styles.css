@@ -33,3 +33,7 @@
 .tile.miss {
     background-color: blue; /* TODO: Adjust color */
 }
+
+.tile.ship {
+    background-color: gray; /* TODO: Adjust color */
+}

@@ -56,7 +56,7 @@ export default class GameDisplay {
             }
         }
 
-        divShipPlacementPhaseDisplay.appendChild(this.#createLabeledGameBoard(currentPlayer.name, currentPlayer.gameBoard, tileClickHandler, false));
+        divShipPlacementPhaseDisplay.appendChild(this.#createLabeledGameBoard(currentPlayer.name, currentPlayer.gameBoard, true, tileClickHandler, false));
 
         return divShipPlacementPhaseDisplay;
     }
@@ -92,16 +92,18 @@ export default class GameDisplay {
         divLabeledGameBoardList.classList.add("labeled-game-board-list");
         divLabeledGameBoardList.appendChild(this.#createLabeledGameBoard(game.player1.name,
             game.player1.gameBoard,
+            isPlayer1GameBoardDisabled,
             (x, y) => tileClickHandler(isPlayer1GameBoardDisabled, x, y),
             reDrawFunction, isPlayer1GameBoardDisabled));
         divLabeledGameBoardList.appendChild(this.#createLabeledGameBoard(game.player2.name,
             game.player2.gameBoard,
+            isPlayer2GameBoardDisabled,
             (x, y) => tileClickHandler(isPlayer2GameBoardDisabled, x, y),
             reDrawFunction, isPlayer2GameBoardDisabled));
         return divLabeledGameBoardList;
     }
 
-    static #createLabeledGameBoard(playerName, gameBoard, tileClickHandler, isDisabled) {
+    static #createLabeledGameBoard(playerName, gameBoard, highlightShips, tileClickHandler, isDisabled) {
         let divPlayerName = document.createElement("div");
         divPlayerName.classList.add("player-name");
         divPlayerName.textContent = playerName;
@@ -109,7 +111,7 @@ export default class GameDisplay {
         let divLabeledGameBoard = document.createElement("div");
         divLabeledGameBoard.classList.add("labeled-game-board");
         divLabeledGameBoard.appendChild(divPlayerName);
-        GameBoardDisplay.draw(gameBoard, divLabeledGameBoard, tileClickHandler, isDisabled);
+        GameBoardDisplay.draw(gameBoard, divLabeledGameBoard, highlightShips, tileClickHandler, isDisabled);
 
         return divLabeledGameBoard;
     }
