@@ -1,28 +1,24 @@
 export default class GameBoardDisplay {
 
-    static draw(gameBoard, container, reDrawFunction, isDisabled) {
+    static draw(gameBoard, container, tileClickHandler, isDisabled) {
         let divGameBoard = document.createElement("div");
         divGameBoard.classList.add("game-board");
         if (isDisabled) {
             divGameBoard.classList.add("disabled");
         }
-        divGameBoard.appendChild(this.#createTileList(gameBoard, reDrawFunction, isDisabled));
+        divGameBoard.appendChild(this.#createTileList(gameBoard, tileClickHandler));
 
         container.appendChild(divGameBoard);
     }
 
-    static #createTileList(gameBoard, reDrawFunction, isDisabled) {
+    static #createTileList(gameBoard, tileClickHandler) {
         let divTileList = document.createElement("div");
         divTileList.classList.add("tile-list");
         for (let j = 0; j < gameBoard.getGameBoardWidth(); j++) {
             for (let i = 0; i < gameBoard.getGameBoardHeight(); i++) {
-                let clickHandler = () => {
-                    if (!isDisabled) {
-                        gameBoard.receiveAttack([i, j]);
-                        reDrawFunction();
-                    }
-                };
-                divTileList.appendChild(this.#createTile(gameBoard.areCoordinatesAttacked([i, j]), gameBoard.doesShipExist([i, j]), clickHandler));
+                divTileList.appendChild(this.#createTile(gameBoard.areCoordinatesAttacked([i, j]),
+                gameBoard.doesShipExist([i, j]),
+                () => tileClickHandler(i, j)));
             }
         }
 
