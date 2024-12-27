@@ -18,7 +18,7 @@ export default class Game {
             this.currentTurn = (this.currentTurn + 1) % 2;
         }
 
-        const currentPlayer = this.#getCurrentPlayer();
+        const currentPlayer = this.getCurrentPlayer();
         if (!currentPlayer.isHuman) {
             if (this.hasUnplacedShips()) {
                 this.#performComputerShipPlacements(currentPlayer);
@@ -35,7 +35,7 @@ export default class Game {
         }
     }
 
-    #getCurrentPlayer() {
+    getCurrentPlayer() {
         if (this.currentTurn === 0) {
             return this.player1;
         } else {
@@ -72,7 +72,7 @@ export default class Game {
     placeShip(coordinates, unplacedShipIndex, orientation) {
         let success;
         
-        let currentPlayer = this.#getCurrentPlayer();
+        let currentPlayer = this.getCurrentPlayer();
 
         success = currentPlayer.gameBoard.placeShip(coordinates, currentPlayer.unplacedShips[unplacedShipIndex].length, orientation);
         

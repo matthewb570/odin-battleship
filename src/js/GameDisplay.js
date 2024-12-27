@@ -23,13 +23,13 @@ export default class GameDisplay {
     }
 
     static #createShipPlacementPhaseDisplay(game, reDrawFunction) {
-        // TODO: Add ability for computer ship placement
         let divShipPlacementPhaseDisplay = document.createElement("div");
         divShipPlacementPhaseDisplay.classList.add("ship-placement-phase-display");
 
+        const currentPlayer = game.getCurrentPlayer();
         let selectShips = document.createElement("select");
-        for (const shipIndex in game.player1.unplacedShips) {
-            const ship = game.player1.unplacedShips[shipIndex];
+        for (const shipIndex in currentPlayer.unplacedShips) {
+            const ship = currentPlayer.unplacedShips[shipIndex];
             const optionShip = document.createElement("option");
             optionShip.textContent = `${ship.name} (${ship.length})`;
             optionShip.value = shipIndex;
@@ -56,7 +56,7 @@ export default class GameDisplay {
             }
         }
 
-        divShipPlacementPhaseDisplay.appendChild(this.#createLabeledGameBoard(game.player1.name, game.player1.gameBoard, tileClickHandler, false));
+        divShipPlacementPhaseDisplay.appendChild(this.#createLabeledGameBoard(currentPlayer.name, currentPlayer.gameBoard, tileClickHandler, false));
 
         return divShipPlacementPhaseDisplay;
     }
@@ -66,9 +66,10 @@ export default class GameDisplay {
         divBattlePhaseDisplay.classList.add("battle-phase-display");
 
         if (game.isOver()) {
+            const currentPlayer = game.getCurrentPlayer();
             let divGameResult = document.createElement("div");
             divGameResult.classList.add("game-result");
-            divGameResult.textContent = `${game.currentTurn === 0 ? game.player1.name : game.player2.name} wins!`;
+            divGameResult.textContent = `${currentPlayer.name} wins!`;
             divBattlePhaseDisplay.appendChild(divGameResult);
         }
         divBattlePhaseDisplay.appendChild(this.#createLabeledGameBoardList(game, reDrawFunction));
