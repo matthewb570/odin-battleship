@@ -21,6 +21,25 @@ export default class Game {
 
     nextTurn() {
         this.currentTurn = (this.currentTurn + 1) % 2;
+        if (this.currentTurn === 0 && !this.player1.isHuman) {
+            this.#performComputerMove(this.player2.gameBoard);
+            this.nextTurn();
+            
+        } else if (this.currentTurn === 1 && !this.player2.isHuman) {
+            this.#performComputerMove(this.player1.gameBoard);
+            this.nextTurn();
+        }
+    }
+
+    #performComputerMove(gameBoard) {
+        for (let j = 0; j < gameBoard.getGameBoardHeight(); j++) {
+            for (let i = 0; i < gameBoard.getGameBoardWidth(); i++) {
+                if (!gameBoard.areCoordinatesAttacked([i, j])) {
+                    gameBoard.receiveAttack([i, j]);
+                    return;
+                }
+            }
+        }
     }
 
     isOver() {
