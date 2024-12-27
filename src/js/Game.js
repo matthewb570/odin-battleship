@@ -20,14 +20,15 @@ export default class Game {
     }
 
     nextTurn() {
-        this.currentTurn = (this.currentTurn + 1) % 2;
-        if (this.currentTurn === 0 && !this.player1.isHuman) {
-            this.#performComputerMove(this.player2.gameBoard);
-            this.nextTurn();
-            
-        } else if (this.currentTurn === 1 && !this.player2.isHuman) {
-            this.#performComputerMove(this.player1.gameBoard);
-            this.nextTurn();
+        if (!this.isOver()) {
+            this.currentTurn = (this.currentTurn + 1) % 2;
+            if (this.currentTurn === 0 && !this.player1.isHuman) {
+                this.#performComputerMove(this.player2.gameBoard);
+                this.nextTurn();
+            } else if (this.currentTurn === 1 && !this.player2.isHuman) {
+                this.#performComputerMove(this.player1.gameBoard);
+                this.nextTurn();
+            }
         }
     }
 
@@ -39,7 +40,7 @@ export default class Game {
                     return;
                 }
             }
-        }
+        }   
     }
 
     isOver() {

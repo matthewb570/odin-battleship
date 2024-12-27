@@ -14,6 +14,12 @@ export default class GameDisplay {
 
         let divGame = document.createElement("div");
         divGame.classList.add("game");
+        if (game.isOver()) {
+            let divGameResult = document.createElement("div");
+            divGameResult.classList.add("game-result");
+            divGameResult.textContent = `${game.currentTurn === 0 ? game.player1.name : game.player2.name} wins!`;
+            divGame.appendChild(divGameResult);
+        }
         divGame.appendChild(this.#createLabeledGameBoardList(game, reDrawFunction));
         
         container.appendChild(divGame);
