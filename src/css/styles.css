@@ -56,3 +56,9 @@ body {
     justify-content: center;
     gap: 3rem;
 }
+
+.labeled-game-board {
+    padding: 1rem;
+    border-radius: 5px;
+    backdrop-filter: blur(100px);
+}
