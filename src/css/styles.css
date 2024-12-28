@@ -62,3 +62,28 @@ body {
     border-radius: 5px;
     backdrop-filter: blur(100px);
 }
+
+.player-name {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.game-result {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 10;
+
+    width: 100vw;
+    height: 100vh;
+    
+    font-size: 5rem;
+    color: white;
+    
+    backdrop-filter: blur(3px) brightness(50%);
+}
