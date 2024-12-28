@@ -32,15 +32,15 @@ body {
 }
 
 .tile.hit {
-    background-color: red; /* TODO: Adjust color */
+    background-color: rgb(205, 30, 30);
 }
 
 .tile.miss {
-    background-color: blue; /* TODO: Adjust color */
+    background-color: white;
 }
 
 .tile.ship {
-    background-color: gray; /* TODO: Adjust color */
+    background-color: rgb(160, 160, 160);
 }
 
 .game {
