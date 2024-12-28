@@ -1,7 +1,19 @@
+@import url(https://fonts.bunny.net/css?family=roboto:400,400i,700);
+
+:root {
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
 .tile-list {
     display: flex;
     flex-wrap: wrap;
-    width: 40rem;
+    width: 42.7rem;
+    gap: .3rem;
 }
 
 .tile {
@@ -10,16 +22,8 @@
     box-sizing: border-box;
     width: 4rem;
     height: 4rem;
-    border-left: solid 1px black;
-    border-top: solid 1px black;
-}
-
-.tile:nth-child(10n) {
-    border-right: solid 1px black;
-}
-
-.tile:nth-last-child(-n + 10) {
-    border-bottom: solid 1px black;
+    border: solid 1px black;
+    border-radius: 5px;
 }
 
 .tile.neutral {
@@ -36,4 +40,18 @@
 
 .tile.ship {
     background-color: gray; /* TODO: Adjust color */
+}
+
+.game {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 100vh;
+}
+
+.labeled-game-board-list {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
 }
