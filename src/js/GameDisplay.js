@@ -27,6 +27,29 @@ export default class GameDisplay {
         divShipPlacementPhaseDisplay.classList.add("ship-placement-phase-display");
 
         const currentPlayer = game.getCurrentPlayer();
+
+        const selectShips = this.#createShipDropdown(currentPlayer);
+        const selectDirection = this.#createShipDirectionDropdown();
+
+        const divShipPlacementDropdownGroup = document.createElement("div");
+        divShipPlacementDropdownGroup.classList.add("ship-placement-dropdown-group");
+        divShipPlacementDropdownGroup.appendChild(selectShips);
+        divShipPlacementDropdownGroup.appendChild(selectDirection);
+
+        divShipPlacementPhaseDisplay.appendChild(divShipPlacementDropdownGroup);
+
+        let tileClickHandler = (x, y) => {
+            if (game.placeShip([x, y], selectShips.value, selectDirection.value)) {
+                reDrawFunction();
+            }
+        }
+
+        divShipPlacementPhaseDisplay.appendChild(this.#createLabeledGameBoard(currentPlayer.name, currentPlayer.gameBoard, true, tileClickHandler, false));
+
+        return divShipPlacementPhaseDisplay;
+    }
+
+    static #createShipDropdown(currentPlayer) {
         let selectShips = document.createElement("select");
         for (const shipIndex in currentPlayer.unplacedShips) {
             const ship = currentPlayer.unplacedShips[shipIndex];
@@ -35,8 +58,11 @@ export default class GameDisplay {
             optionShip.value = shipIndex;
             selectShips.appendChild(optionShip);
         }
-        divShipPlacementPhaseDisplay.appendChild(selectShips);
 
+        return selectShips;
+    }
+
+    static #createShipDirectionDropdown() {
         let optionHorizontal = document.createElement("option");
         optionHorizontal.value = "horizontal";
         optionHorizontal.textContent = "Horizontal";
@@ -48,17 +74,8 @@ export default class GameDisplay {
         let selectDirection = document.createElement("select");
         selectDirection.appendChild(optionHorizontal);
         selectDirection.appendChild(optionVertical);
-        divShipPlacementPhaseDisplay.appendChild(selectDirection);
 
-        let tileClickHandler = (x, y) => {
-            if (game.placeShip([x, y], selectShips.value, selectDirection.value)) {
-                reDrawFunction();
-            }
-        }
-
-        divShipPlacementPhaseDisplay.appendChild(this.#createLabeledGameBoard(currentPlayer.name, currentPlayer.gameBoard, true, tileClickHandler, false));
-
-        return divShipPlacementPhaseDisplay;
+        return selectDirection;
     }
 
     static #createBattlePhaseDisplay(game, reDrawFunction) {

@@ -1,6 +1,8 @@
 @import url(https://fonts.bunny.net/css?family=roboto:400,400i,700);
 
 :root {
+    --standard-box-shadow: rgb(156, 156, 156) 1px 1px 5px;
+    
     font-family: 'Roboto', sans-serif;
 }
 
@@ -59,8 +61,6 @@ body {
 
 .labeled-game-board {
     padding: 1rem;
-    border-radius: 5px;
-    backdrop-filter: blur(100px);
 }
 
 .player-name {
@@ -86,4 +86,31 @@ body {
     color: white;
     
     backdrop-filter: blur(3px) brightness(50%);
+}
+
+.ship-placement-phase-display,
+.battle-phase-display .labeled-game-board {
+    backdrop-filter: blur(100px);
+    border-radius: 5px;
+}
+
+.ship-placement-dropdown-group {
+    display: flex;
+    gap: 1rem;
+
+    padding: 1rem;
+}
+
+select {
+    padding: 10px 5px;
+    border-radius: 5px;
+    border: solid 1px white;
+    font-size: 1rem;
+    background: transparent;
+}
+
+select:focus {
+    border-color: forestgreen;
+    outline:none;
+    box-shadow: var(--standard-box-shadow);
 }
