@@ -1,3 +1,4 @@
+import NumberUtils from "./NumberUtils.js";
 import Player from "./Player.js";
 
 export default class Game {
@@ -59,14 +60,45 @@ export default class Game {
     }
 
     #performComputerMove(gameBoard) {
-        for (let j = 0; j < gameBoard.getGameBoardHeight(); j++) {
-            for (let i = 0; i < gameBoard.getGameBoardWidth(); i++) {
-                if (!gameBoard.areCoordinatesAttacked([i, j])) {
-                    gameBoard.receiveAttack([i, j]);
-                    return;
-                }
+        // if (last attack was miss and no ship attack is in progress) or (last attack sunk ship)
+        //   pick random space and attack
+        // else
+        //   if first hit has no adjacent hits
+        //     pick random adjacent space and attack
+        //   else
+        //     traverse line of hits until reaching an empty space or a miss
+        //     if space is empty
+        //       attack
+        //     if space is a miss
+        //       traverse line of hits in other direction until reaching an empty space or a miss
+        //       if space is empty
+        //         attack
+        //       if space is a miss, two ships are in play
+        //     pick next space in line with hits and attack
+
+        gameBoard.receiveAttack(this.#generateRandomAttackCoordinates(gameBoard));
+    }
+
+    #generateRandomAttackCoordinates(gameBoard) {
+        const eligibleColumns = new Array();
+        for (let i = 0; i < gameBoard.getGameBoardWidth(); i++) {
+            if (gameBoard.getNumNotAttackedSpacesInColumn(i) > 0) {
+                eligibleColumns.push(i);
             }
-        }   
+        }
+
+        const randomX = eligibleColumns[NumberUtils.getRandomIntegerInRange(0, eligibleColumns.length - 1)];
+
+        const eligibleRows = new Array();
+        for (let i = 0; i < gameBoard.getGameBoardHeight(); i++) {
+            if (!gameBoard.areCoordinatesAttacked([randomX, i])) {
+                eligibleRows.push(i);
+            }
+        }
+
+        const randomY = eligibleRows[NumberUtils.getRandomIntegerInRange(0, eligibleRows.length - 1)];
+
+        return [randomX, randomY];
     }
 
     placeShip(coordinates, unplacedShipIndex, orientation) {

@@ -106,6 +106,32 @@ class GameBoard {
     getGameBoardHeight() {
         return GAME_BOARD_WIDTH_HEIGHT;
     }
+
+    // TODO: Add tests
+    getNumNotAttackedSpacesInColumn(x) {
+        let numNotAttackedSpacesInColumn = GAME_BOARD_WIDTH_HEIGHT;
+        
+        for (let y = 0; y < GAME_BOARD_WIDTH_HEIGHT; y++) {
+            if (this.areCoordinatesAttacked([x, y])) {
+                numNotAttackedSpacesInColumn--;
+            }
+        }
+
+        return numNotAttackedSpacesInColumn;
+    }
+
+    // TODO: Add tests
+    getNumNotAttackedSpacesInRow(y) {
+        let numNotAttackedSpacesInRow = GAME_BOARD_WIDTH_HEIGHT;
+        
+        for (let x = 0; x < GAME_BOARD_WIDTH_HEIGHT; x++) {
+            if (this.areCoordinatesAttacked([x, y])) {
+                numNotAttackedSpacesInRow--;
+            }
+        }
+
+        return numNotAttackedSpacesInRow;
+    }
 }
 
 export default GameBoard;
