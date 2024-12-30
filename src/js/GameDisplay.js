@@ -87,23 +87,23 @@ export default class GameDisplay {
                 reDrawFunction();
             }
         }
-        
+
         let divLabeledGameBoardList = document.createElement("div");
         divLabeledGameBoardList.classList.add("labeled-game-board-list");
         divLabeledGameBoardList.appendChild(this.#createLabeledGameBoard(game.player1.name,
             game.player1.gameBoard,
             isPlayer1GameBoardDisabled,
             (x, y) => tileClickHandler(isPlayer1GameBoardDisabled, x, y),
-            reDrawFunction, isPlayer1GameBoardDisabled));
+            isPlayer1GameBoardDisabled, !game.player2.isHuman && (!game.isOver() || game.currentTurn === 1)));
         divLabeledGameBoardList.appendChild(this.#createLabeledGameBoard(game.player2.name,
             game.player2.gameBoard,
             isPlayer2GameBoardDisabled,
             (x, y) => tileClickHandler(isPlayer2GameBoardDisabled, x, y),
-            reDrawFunction, isPlayer2GameBoardDisabled));
+            isPlayer2GameBoardDisabled, !game.player1.isHuman && (!game.isOver() || game.currentTurn === 0)));
         return divLabeledGameBoardList;
     }
 
-    static #createLabeledGameBoard(playerName, gameBoard, highlightShips, tileClickHandler, isDisabled) {
+    static #createLabeledGameBoard(playerName, gameBoard, highlightShips, tileClickHandler, isDisabled, flashLastCoordinatesAttacked) {
         let divPlayerName = document.createElement("div");
         divPlayerName.classList.add("player-name");
         divPlayerName.textContent = playerName;
@@ -111,7 +111,7 @@ export default class GameDisplay {
         let divLabeledGameBoard = document.createElement("div");
         divLabeledGameBoard.classList.add("labeled-game-board");
         divLabeledGameBoard.appendChild(divPlayerName);
-        GameBoardDisplay.draw(gameBoard, divLabeledGameBoard, highlightShips, tileClickHandler, isDisabled);
+        GameBoardDisplay.draw(gameBoard, divLabeledGameBoard, highlightShips, tileClickHandler, isDisabled, flashLastCoordinatesAttacked);
 
         return divLabeledGameBoard;
     }

@@ -6,6 +6,7 @@ class GameBoard {
     
     gameBoard;
     ships;
+    lastCoordinatesAttacked; // TODO: Add tests for this
 
     constructor() {
         this.gameBoard = new Array(GAME_BOARD_WIDTH_HEIGHT);
@@ -17,6 +18,8 @@ class GameBoard {
         }
 
         this.ships = new Array();
+
+        this.lastCoordinatesAttacked = new Array(-1, -1);
     }
 
     placeShip(coordinates, length, orientation) {
@@ -42,6 +45,7 @@ class GameBoard {
             return false;
         }
         this.gameBoard[coordinates[0]][coordinates[1]][0] = true;
+        this.lastCoordinatesAttacked = coordinates;
 
         let ship = this.gameBoard[coordinates[0]][coordinates[1]][1];
         if (ship !== undefined && ship !== null) {
