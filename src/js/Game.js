@@ -60,22 +60,6 @@ export default class Game {
     }
 
     #performComputerMove(gameBoard) {
-        // if (last attack was miss and no ship attack is in progress) or (last attack sunk ship)
-        //   pick random space and attack
-        // else
-        //   if first hit has no adjacent hits
-        //     pick random adjacent space and attack
-        //   else
-        //     traverse line of hits until reaching an empty space or a miss
-        //     if space is empty
-        //       attack
-        //     if space is a miss
-        //       traverse line of hits in other direction until reaching an empty space or a miss
-        //       if space is empty
-        //         attack
-        //       if space is a miss, two ships are in play
-        //     pick next space in line with hits and attack
-
         let hasAttackBeenPerformed = gameBoard.lastCoordinatesAttacked[0] !== -1 && gameBoard.lastCoordinatesAttacked[1] !== -1;
         let isLastAttackMiss = gameBoard.lastCoordinatesAttacked[0] !== -1 && gameBoard.lastCoordinatesAttacked[1] !== -1 && !gameBoard.doesShipExist(gameBoard.lastCoordinatesAttacked);
         let isAttackInProgress = (gameBoard.lastHit[0] !== -1 && gameBoard.lastHit[1] !== -1) && !gameBoard.isShipSunk(gameBoard.lastHit);
@@ -84,29 +68,36 @@ export default class Game {
         if (!hasAttackBeenPerformed || (isLastAttackMiss && !isAttackInProgress) || didLastAttackSinkShip) {
             gameBoard.receiveAttack(this.#generateRandomAttackCoordinates(gameBoard));
         } else {
-            // console.log("checking last hit");
             const lastHitAdjacentHits = gameBoard.getAdjacentHits(gameBoard.lastHit);
-            // console.log(lastHitAdjacentHits);
-            const validLastHitAdjacentHits = lastHitAdjacentHits.filter((coordinates) => coordinates !== null);
+            const validLastHitAdjacentHits = lastHitAdjacentHits.filter((coordinates) => coordinates !== null && !gameBoard.isShipSunk(coordinates));
             if (validLastHitAdjacentHits.length === 0) {
                 const lastHitAdjacentCoordinates = gameBoard.getAdjacentCoordinates(gameBoard.lastHit);
                 const validLastHitAdjacentCoordinates = lastHitAdjacentCoordinates.filter((coordinates) => coordinates !== null && !gameBoard.areCoordinatesAttacked(coordinates));
-                // console.log(lastHitAdjacentCoordinates);
                 gameBoard.receiveAttack(validLastHitAdjacentCoordinates[NumberUtils.getRandomIntegerInRange(0, validLastHitAdjacentCoordinates.length - 1)]);
             } else {
                 let lastHitAdjacentHitsCounter = 0;
-                while(lastHitAdjacentHitsCounter < lastHitAdjacentHits.length && lastHitAdjacentHits[lastHitAdjacentHitsCounter] === null) {
+                while(lastHitAdjacentHitsCounter < lastHitAdjacentHits.length && (lastHitAdjacentHits[lastHitAdjacentHitsCounter] === null || gameBoard.isShipSunk(lastHitAdjacentHits[lastHitAdjacentHitsCounter]))) {
                     lastHitAdjacentHitsCounter++;
                 }
                 let oppositeLastHitAdjacentHitsCounter = (lastHitAdjacentHitsCounter + 2) % 4;
+                let perpendicularLastHitAdjacentHitsCounter = (lastHitAdjacentHitsCounter + 1) % 4;
+                let oppositePerpendicularLastHitAdjacentHitsCounter = (perpendicularLastHitAdjacentHitsCounter + 2) % 4;
                 
+                const lastHitAdjacentCoordinates = gameBoard.getAdjacentCoordinates(gameBoard.lastHit);
+
                 let attackOption1 = this.#traverseAttackPath(gameBoard, lastHitAdjacentHits[lastHitAdjacentHitsCounter], lastHitAdjacentHitsCounter);
+                let attackOption2 = this.#traverseAttackPath(gameBoard, lastHitAdjacentCoordinates[oppositeLastHitAdjacentHitsCounter], oppositeLastHitAdjacentHitsCounter);
+                let attackOption3 = this.#traverseAttackPath(gameBoard, lastHitAdjacentCoordinates[perpendicularLastHitAdjacentHitsCounter], perpendicularLastHitAdjacentHitsCounter);
+                let attackOption4 = this.#traverseAttackPath(gameBoard, lastHitAdjacentCoordinates[oppositePerpendicularLastHitAdjacentHitsCounter], oppositePerpendicularLastHitAdjacentHitsCounter);
+
                 if (attackOption1 !== null) {
                     gameBoard.receiveAttack(attackOption1);
-                } else {
-                    const lastHitAdjacentCoordinates = gameBoard.getAdjacentCoordinates(gameBoard.lastHit);
-                    let attackOption2 = this.#traverseAttackPath(gameBoard, lastHitAdjacentCoordinates[oppositeLastHitAdjacentHitsCounter], oppositeLastHitAdjacentHitsCounter);
+                } else if (attackOption2 !== null) {
                     gameBoard.receiveAttack(attackOption2);
+                } else if (attackOption3 !== null) {
+                    gameBoard.receiveAttack(attackOption3);
+                } else {
+                    gameBoard.receiveAttack(attackOption4);
                 }
             }
         }
@@ -135,9 +126,7 @@ export default class Game {
     }
 
     #traverseAttackPath(gameBoard, startingCoordinates, direction) {
-        console.log(startingCoordinates);
-        console.log(direction);
-        if (startingCoordinates === null || (gameBoard.areCoordinatesAttacked(startingCoordinates) && !gameBoard.doesShipExist(startingCoordinates))) {
+        if (startingCoordinates === null || (gameBoard.areCoordinatesAttacked(startingCoordinates) && (!gameBoard.doesShipExist(startingCoordinates) || gameBoard.isShipSunk(startingCoordinates)))) {
             return null;
         } else if (startingCoordinates !== null && !gameBoard.areCoordinatesAttacked(startingCoordinates)) {
             return startingCoordinates;
