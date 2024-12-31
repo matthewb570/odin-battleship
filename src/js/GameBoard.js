@@ -113,8 +113,11 @@ class GameBoard {
         return GAME_BOARD_WIDTH_HEIGHT;
     }
 
-    // TODO: Add tests
     getNumNotAttackedSpacesInColumn(x) {
+        if (x < 0 || x >= GAME_BOARD_WIDTH_HEIGHT) {
+            return undefined;
+        }
+
         let numNotAttackedSpacesInColumn = GAME_BOARD_WIDTH_HEIGHT;
         
         for (let y = 0; y < GAME_BOARD_WIDTH_HEIGHT; y++) {
@@ -126,8 +129,11 @@ class GameBoard {
         return numNotAttackedSpacesInColumn;
     }
 
-    // TODO: Add tests
     getNumNotAttackedSpacesInRow(y) {
+        if (y < 0 || y >= GAME_BOARD_WIDTH_HEIGHT) {
+            return undefined;
+        }
+
         let numNotAttackedSpacesInRow = GAME_BOARD_WIDTH_HEIGHT;
         
         for (let x = 0; x < GAME_BOARD_WIDTH_HEIGHT; x++) {

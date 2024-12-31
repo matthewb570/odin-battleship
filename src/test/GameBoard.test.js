@@ -346,3 +346,65 @@ describe("game board - adjacency", () => {
         expect(left).toBe(null);
     });
 });
+
+describe("game board - number of not attacked spaces", () => {
+    test("number of not attacked spaces is provided for a column - example 1", () => {
+        const gameBoard = new GameBoard();
+        expect(gameBoard.getNumNotAttackedSpacesInColumn(0)).toBe(10);
+    });
+
+    test("number of not attacked spaces is provided for a column - example 2", () => {
+        const gameBoard = new GameBoard();
+        gameBoard.receiveAttack([0, 0]);
+        gameBoard.receiveAttack([0, 5]);
+        expect(gameBoard.getNumNotAttackedSpacesInColumn(0)).toBe(8);
+    });
+
+    test("number of not attacked spaces is provided for a column - example 3", () => {
+        const gameBoard = new GameBoard();
+        gameBoard.receiveAttack([5, 0]);
+        gameBoard.receiveAttack([5, 1]);
+        gameBoard.receiveAttack([5, 5]);
+        expect(gameBoard.getNumNotAttackedSpacesInColumn(5)).toBe(7);
+    });
+
+    test("number of not attacked spaces is undefined for invalid columns - example 1", () => {
+        const gameBoard = new GameBoard();
+        expect(gameBoard.getNumNotAttackedSpacesInColumn(10)).toBe(undefined);
+    });
+
+    test("number of not attacked spaces is undefined for invalid columns - example 2", () => {
+        const gameBoard = new GameBoard();
+        expect(gameBoard.getNumNotAttackedSpacesInColumn(-1)).toBe(undefined);
+    });
+
+    test("number of not attacked spaces is provided for a row - example 1", () => {
+        const gameBoard = new GameBoard();
+        expect(gameBoard.getNumNotAttackedSpacesInRow(0)).toBe(10);
+    });
+
+    test("number of not attacked spaces is provided for a row - example 2", () => {
+        const gameBoard = new GameBoard();
+        gameBoard.receiveAttack([0, 0]);
+        gameBoard.receiveAttack([5, 0]);
+        expect(gameBoard.getNumNotAttackedSpacesInRow(0)).toBe(8);
+    });
+
+    test("number of not attacked spaces is provided for a row - example 3", () => {
+        const gameBoard = new GameBoard();
+        gameBoard.receiveAttack([0, 5]);
+        gameBoard.receiveAttack([1, 5]);
+        gameBoard.receiveAttack([5, 5]);
+        expect(gameBoard.getNumNotAttackedSpacesInRow(5)).toBe(7);
+    });
+
+    test("number of not attacked spaces is undefined for invalid rows - example 1", () => {
+        const gameBoard = new GameBoard();
+        expect(gameBoard.getNumNotAttackedSpacesInRow(10)).toBe(undefined);
+    });
+
+    test("number of not attacked spaces is undefined for invalid rows - example 2", () => {
+        const gameBoard = new GameBoard();
+        expect(gameBoard.getNumNotAttackedSpacesInRow(-1)).toBe(undefined);
+    });
+});
