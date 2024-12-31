@@ -1,120 +1,120 @@
 @import url(https://fonts.bunny.net/css?family=roboto:400,400i,700);
 
 :root {
-    --standard-box-shadow: rgb(156, 156, 156) 1px 1px 5px;
-    
-    font-family: 'Roboto', sans-serif;
+  --standard-box-shadow: rgb(156, 156, 156) 1px 1px 5px;
+
+  font-family: "Roboto", sans-serif;
 }
 
 body {
-    padding: 0;
-    margin: 0;
-    background-image: url(../images/water.jpg);
+  padding: 0;
+  margin: 0;
+  background-image: url(../images/water.jpg);
 }
 
 .tile-list {
-    display: flex;
-    flex-wrap: wrap;
-    width: 42.7rem;
-    gap: .3rem;
+  display: flex;
+  flex-wrap: wrap;
+  width: 42.7rem;
+  gap: 0.3rem;
 }
 
 .tile {
-    flex: 0 0 auto;
+  flex: 0 0 auto;
 
-    box-sizing: border-box;
-    width: 4rem;
-    height: 4rem;
-    border: solid 1px black;
-    border-radius: 5px;
+  box-sizing: border-box;
+  width: 4rem;
+  height: 4rem;
+  border: solid 1px black;
+  border-radius: 5px;
 }
 
 .tile.neutral {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 .tile.sunk {
-    background-color: rgb(110, 15, 15);
+  background-color: rgb(110, 15, 15);
 }
 
 .tile.hit {
-    background-color: rgb(205, 30, 30);
+  background-color: rgb(205, 30, 30);
 }
 
 .tile.miss {
-    background-color: white;
+  background-color: white;
 }
 
 .tile.ship {
-    background-color: rgb(160, 160, 160);
+  background-color: rgb(160, 160, 160);
 }
 
 .game {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    height: 100vh;
+  height: 100vh;
 }
 
 .labeled-game-board-list {
-    display: flex;
-    justify-content: center;
-    gap: 3rem;
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
 }
 
 .labeled-game-board {
-    padding: 1rem;
+  padding: 1rem;
 }
 
 .player-name {
-    text-align: center;
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .game-result {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    z-index: 10;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 10;
 
-    width: 100vw;
-    height: 100vh;
-    
-    font-size: 5rem;
-    color: white;
-    
-    backdrop-filter: blur(3px) brightness(50%);
+  width: 100vw;
+  height: 100vh;
+
+  font-size: 5rem;
+  color: white;
+
+  backdrop-filter: blur(3px) brightness(50%);
 }
 
 .ship-placement-phase-display,
 .battle-phase-display .labeled-game-board {
-    backdrop-filter: blur(100px);
-    border-radius: 5px;
+  backdrop-filter: blur(100px);
+  border-radius: 5px;
 }
 
 .ship-placement-dropdown-group {
-    display: flex;
-    gap: 1rem;
+  display: flex;
+  gap: 1rem;
 
-    padding: 1rem;
+  padding: 1rem;
 }
 
 select {
-    padding: 10px 5px;
-    border-radius: 5px;
-    border: solid 1px white;
-    font-size: 1rem;
-    background: transparent;
+  padding: 10px 5px;
+  border-radius: 5px;
+  border: solid 1px white;
+  font-size: 1rem;
+  background: transparent;
 }
 
 select:focus {
-    border-color: forestgreen;
-    outline:none;
-    box-shadow: var(--standard-box-shadow);
+  border-color: forestgreen;
+  outline: none;
+  box-shadow: var(--standard-box-shadow);
 }
