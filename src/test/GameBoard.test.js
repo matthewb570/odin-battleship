@@ -188,3 +188,161 @@ describe("game board - receive attacks", () => {
         expect(gameBoard.areAllShipsSunk()).toBeFalsy();
     });
 });
+
+describe("game board - adjacency", () => {
+    test("adjacent coordinates returned when all adjacent coordinates are valid", () => {
+        let gameBoard = new GameBoard();
+        let adjacentCoordinates = gameBoard.getAdjacentCoordinates([5, 5]);
+        
+        let top = adjacentCoordinates[0];
+        let right = adjacentCoordinates[1];
+        let bottom = adjacentCoordinates[2];
+        let left = adjacentCoordinates[3];
+
+        expect(top[0]).toBe(5);
+        expect(top[1]).toBe(4);
+        expect(right[0]).toBe(6);
+        expect(right[1]).toBe(5);
+        expect(bottom[0]).toBe(5);
+        expect(bottom[1]).toBe(6);
+        expect(left[0]).toBe(4);
+        expect(left[1]).toBe(5);
+    });
+
+    test("top adjacent coordinates are null when top adjacent coordinates are invalid", () => {
+        let gameBoard = new GameBoard();
+        let adjacentCoordinates = gameBoard.getAdjacentCoordinates([5, 0]);
+        
+        let top = adjacentCoordinates[0];
+
+        expect(top).toBe(null);
+    });
+
+    test("right adjacent coordinates are null when right adjacent coordinates are invalid", () => {
+        let gameBoard = new GameBoard();
+        let adjacentCoordinates = gameBoard.getAdjacentCoordinates([9, 5]);
+        
+        let right = adjacentCoordinates[1];
+
+        expect(right).toBe(null);
+    });
+
+    test("bottom adjacent coordinates are null when bottom adjacent coordinates are invalid", () => {
+        let gameBoard = new GameBoard();
+        let adjacentCoordinates = gameBoard.getAdjacentCoordinates([5, 9]);
+        
+        let bottom = adjacentCoordinates[2];
+
+        expect(bottom).toBe(null);
+    });
+
+    test("left adjacent coordinates are null when left adjacent coordinates are invalid", () => {
+        let gameBoard = new GameBoard();
+        let adjacentCoordinates = gameBoard.getAdjacentCoordinates([0, 5]);
+        
+        let left = adjacentCoordinates[3];
+
+        expect(left).toBe(null);
+    });
+
+    test("adjacent hits returned when all adjacent coordinates are hits", () => {
+        let gameBoard = new GameBoard();
+        gameBoard.placeShip([5, 3], 2, "vertical");
+        gameBoard.placeShip([6, 5], 2, "horizontal");
+        gameBoard.placeShip([5, 6], 2, "vertical");
+        gameBoard.placeShip([3, 5], 2, "horizontal");
+
+        gameBoard.receiveAttack([5, 4]);
+        gameBoard.receiveAttack([6, 5]);
+        gameBoard.receiveAttack([5, 6]);
+        gameBoard.receiveAttack([4, 5]);
+
+        let adjacentHits = gameBoard.getAdjacentHits([5, 5]);
+        
+        let top = adjacentHits[0];
+        let right = adjacentHits[1];
+        let bottom = adjacentHits[2];
+        let left = adjacentHits[3];
+
+        expect(top[0]).toBe(5);
+        expect(top[1]).toBe(4);
+        expect(right[0]).toBe(6);
+        expect(right[1]).toBe(5);
+        expect(bottom[0]).toBe(5);
+        expect(bottom[1]).toBe(6);
+        expect(left[0]).toBe(4);
+        expect(left[1]).toBe(5);
+    });
+
+    test("top adjacent hit is null when top adjacent coordinate is not a hit", () => {
+        let gameBoard = new GameBoard();
+        gameBoard.placeShip([5, 3], 2, "vertical");
+        gameBoard.placeShip([6, 5], 2, "horizontal");
+        gameBoard.placeShip([5, 6], 2, "vertical");
+        gameBoard.placeShip([3, 5], 2, "horizontal");
+
+        gameBoard.receiveAttack([6, 5]);
+        gameBoard.receiveAttack([5, 6]);
+        gameBoard.receiveAttack([4, 5]);
+
+        let adjacentHits = gameBoard.getAdjacentHits([5, 5]);
+        
+        let top = adjacentHits[0];
+        
+        expect(top).toBe(null);
+    });
+
+    test("right adjacent hit is null when right adjacent coordinate is not a hit", () => {
+        let gameBoard = new GameBoard();
+        gameBoard.placeShip([5, 3], 2, "vertical");
+        gameBoard.placeShip([6, 5], 2, "horizontal");
+        gameBoard.placeShip([5, 6], 2, "vertical");
+        gameBoard.placeShip([3, 5], 2, "horizontal");
+
+        gameBoard.receiveAttack([5, 4]);
+        gameBoard.receiveAttack([5, 6]);
+        gameBoard.receiveAttack([4, 5]);
+
+        let adjacentHits = gameBoard.getAdjacentHits([5, 5]);
+        
+        let right = adjacentHits[1];
+
+        expect(right).toBe(null);
+    });
+
+    test("bottom adjacent hit is null when bottom adjacent coordinate is not a hit", () => {
+        let gameBoard = new GameBoard();
+        gameBoard.placeShip([5, 3], 2, "vertical");
+        gameBoard.placeShip([6, 5], 2, "horizontal");
+        gameBoard.placeShip([5, 6], 2, "vertical");
+        gameBoard.placeShip([3, 5], 2, "horizontal");
+
+        gameBoard.receiveAttack([5, 4]);
+        gameBoard.receiveAttack([6, 5]);
+        gameBoard.receiveAttack([4, 5]);
+
+        let adjacentHits = gameBoard.getAdjacentHits([5, 5]);
+        
+        let bottom = adjacentHits[2];
+
+        expect(bottom).toBe(null);
+    });
+
+    test("left adjacent hit is null when left adjacent coordinate is not a hit", () => {
+        let gameBoard = new GameBoard();
+        gameBoard.placeShip([5, 3], 2, "vertical");
+        gameBoard.placeShip([6, 5], 2, "horizontal");
+        gameBoard.placeShip([5, 6], 2, "vertical");
+        gameBoard.placeShip([3, 5], 2, "horizontal");
+
+        gameBoard.receiveAttack([5, 4]);
+        gameBoard.receiveAttack([6, 5]);
+        gameBoard.receiveAttack([5, 6]);
+
+        let adjacentHits = gameBoard.getAdjacentHits([5, 5]);
+        
+        let left = adjacentHits[3];
+
+        expect(left).toBe(null);
+    });
+});

@@ -7,6 +7,7 @@ class GameBoard {
     gameBoard;
     ships;
     lastCoordinatesAttacked; // TODO: Add tests for this
+    lastHit; // TODO: Add tests for this
 
     constructor() {
         this.gameBoard = new Array(GAME_BOARD_WIDTH_HEIGHT);
@@ -20,6 +21,7 @@ class GameBoard {
         this.ships = new Array();
 
         this.lastCoordinatesAttacked = new Array(-1, -1);
+        this.lastHit = new Array(-1, -1);
     }
 
     placeShip(coordinates, length, orientation) {
@@ -50,6 +52,7 @@ class GameBoard {
         let ship = this.gameBoard[coordinates[0]][coordinates[1]][1];
         if (ship !== undefined && ship !== null) {
             ship.hit();
+            this.lastHit = coordinates;
         }
         return true;
     }
@@ -67,8 +70,7 @@ class GameBoard {
         let currentX = coordinates[0];
         let currentY = coordinates[1];
         for (let i = 0; i < length; i++) {
-            if (currentX < 0 || currentX >= GAME_BOARD_WIDTH_HEIGHT ||
-                currentY < 0 || currentY >= GAME_BOARD_WIDTH_HEIGHT ||
+            if (!this.#areCoordinatesInBounds([currentX, currentY]) ||
                 this.gameBoard[currentX][currentY][1] !== null) {
                 return false;
             }
@@ -80,6 +82,10 @@ class GameBoard {
             }
         }
         return true;
+    }
+
+    #areCoordinatesInBounds(coordinates) {
+        return coordinates[0] >= 0 && coordinates[0] < GAME_BOARD_WIDTH_HEIGHT && coordinates[1] >= 0 && coordinates[1] < GAME_BOARD_WIDTH_HEIGHT;
     }
 
     isShipSunk(coordinates) {
@@ -131,6 +137,62 @@ class GameBoard {
         }
 
         return numNotAttackedSpacesInRow;
+    }
+
+    getAdjacentHits(coordinates) {
+        const adjacentHits = new Array();
+
+        const adjacentCoordinates = this.getAdjacentCoordinates(coordinates);
+
+        for (let i = 0; i < adjacentCoordinates.length; i++) {
+            if (adjacentCoordinates[i] !== null && this.areCoordinatesAttacked(adjacentCoordinates[i]) && this.doesShipExist(adjacentCoordinates[i])) {
+                adjacentHits.push(adjacentCoordinates[i]);
+            } else {
+                adjacentHits.push(null);
+            }
+        }
+
+        return adjacentHits;
+        
+    }
+
+    getAdjacentCoordinates(coordinates) {
+        if (!this.#areCoordinatesInBounds(coordinates)) {
+            return new Array();
+        }
+
+        const adjacentCoordinates = new Array();
+        
+        const top = [coordinates[0], coordinates[1] - 1];
+        const right = [coordinates[0] + 1, coordinates[1]];
+        const bottom = [coordinates[0], coordinates[1] + 1];
+        const left = [coordinates[0] - 1, coordinates[1]];
+
+        if (top[1] >= 0) {
+            adjacentCoordinates.push(top);
+        } else {
+            adjacentCoordinates.push(null);
+        }
+
+        if (right[0] < GAME_BOARD_WIDTH_HEIGHT) {
+            adjacentCoordinates.push(right);
+        } else {
+            adjacentCoordinates.push(null);
+        }
+
+        if (bottom[1] < GAME_BOARD_WIDTH_HEIGHT) {
+            adjacentCoordinates.push(bottom);
+        } else {
+            adjacentCoordinates.push(null);
+        }
+
+        if (left[0] >= 0) {
+            adjacentCoordinates.push(left);
+        } else {
+            adjacentCoordinates.push(null);
+        }
+
+        return adjacentCoordinates;
     }
 }
 
