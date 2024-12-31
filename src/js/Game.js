@@ -79,34 +79,9 @@ export default class Game {
             const lastHitAdjacentHits = gameBoard.getAdjacentHits(gameBoard.lastHit);
             const validLastHitAdjacentHits = lastHitAdjacentHits.filter((coordinates) => coordinates !== null && !gameBoard.isShipSunk(coordinates));
             if (validLastHitAdjacentHits.length === 0) {
-                const lastHitAdjacentCoordinates = gameBoard.getAdjacentCoordinates(gameBoard.lastHit);
-                const validLastHitAdjacentCoordinates = lastHitAdjacentCoordinates.filter((coordinates) => coordinates !== null && !gameBoard.areCoordinatesAttacked(coordinates));
-                gameBoard.receiveAttack(validLastHitAdjacentCoordinates[NumberUtils.getRandomIntegerInRange(0, validLastHitAdjacentCoordinates.length - 1)]);
+                gameBoard.receiveAttack(this.#selectRandomAdjacentCoordinatesForAttack(gameBoard, gameBoard.lastHit));
             } else {
-                let lastHitAdjacentHitsCounter = 0;
-                while(lastHitAdjacentHitsCounter < lastHitAdjacentHits.length && (lastHitAdjacentHits[lastHitAdjacentHitsCounter] === null || gameBoard.isShipSunk(lastHitAdjacentHits[lastHitAdjacentHitsCounter]))) {
-                    lastHitAdjacentHitsCounter++;
-                }
-                let oppositeLastHitAdjacentHitsCounter = (lastHitAdjacentHitsCounter + 2) % 4;
-                let perpendicularLastHitAdjacentHitsCounter = (lastHitAdjacentHitsCounter + 1) % 4;
-                let oppositePerpendicularLastHitAdjacentHitsCounter = (perpendicularLastHitAdjacentHitsCounter + 2) % 4;
-                
-                const lastHitAdjacentCoordinates = gameBoard.getAdjacentCoordinates(gameBoard.lastHit);
-
-                let attackOption1 = this.#traverseAttackPath(gameBoard, lastHitAdjacentHits[lastHitAdjacentHitsCounter], lastHitAdjacentHitsCounter);
-                let attackOption2 = this.#traverseAttackPath(gameBoard, lastHitAdjacentCoordinates[oppositeLastHitAdjacentHitsCounter], oppositeLastHitAdjacentHitsCounter);
-                let attackOption3 = this.#traverseAttackPath(gameBoard, lastHitAdjacentCoordinates[perpendicularLastHitAdjacentHitsCounter], perpendicularLastHitAdjacentHitsCounter);
-                let attackOption4 = this.#traverseAttackPath(gameBoard, lastHitAdjacentCoordinates[oppositePerpendicularLastHitAdjacentHitsCounter], oppositePerpendicularLastHitAdjacentHitsCounter);
-
-                if (attackOption1 !== null) {
-                    gameBoard.receiveAttack(attackOption1);
-                } else if (attackOption2 !== null) {
-                    gameBoard.receiveAttack(attackOption2);
-                } else if (attackOption3 !== null) {
-                    gameBoard.receiveAttack(attackOption3);
-                } else {
-                    gameBoard.receiveAttack(attackOption4);
-                }
+                gameBoard.receiveAttack(this.#selectCoordinatesForAttackByAttackPath(gameBoard, lastHitAdjacentHits));
             }
         }
     }
@@ -131,6 +106,40 @@ export default class Game {
         const randomY = eligibleRows[NumberUtils.getRandomIntegerInRange(0, eligibleRows.length - 1)];
 
         return [randomX, randomY];
+    }
+
+    #selectRandomAdjacentCoordinatesForAttack(gameBoard, startingCoordinates) {
+        const adjacentCoordinates = gameBoard.getAdjacentCoordinates(startingCoordinates);
+        const validAdjacentCoordinates = adjacentCoordinates.filter((coordinates) => coordinates !== null && !gameBoard.areCoordinatesAttacked(coordinates));
+        
+        return validAdjacentCoordinates[NumberUtils.getRandomIntegerInRange(0, validAdjacentCoordinates.length - 1)];
+    }
+
+    #selectCoordinatesForAttackByAttackPath(gameBoard, lastHitAdjacentHits) {
+        let directionCounter = 0;
+        while(directionCounter < lastHitAdjacentHits.length && (lastHitAdjacentHits[directionCounter] === null || gameBoard.isShipSunk(lastHitAdjacentHits[directionCounter]))) {
+            directionCounter++;
+        }
+        let oppositeDirectionCounter = (directionCounter + 2) % lastHitAdjacentHits.length;
+        let perpendicularDirectionCounter = (directionCounter + 1) % lastHitAdjacentHits.length;
+        let oppositePerpendicularDirectionCounter = (perpendicularDirectionCounter + 2) % lastHitAdjacentHits.length;
+                
+        const lastHitAdjacentCoordinates = gameBoard.getAdjacentCoordinates(gameBoard.lastHit);
+
+        let attackOption1 = this.#traverseAttackPath(gameBoard, lastHitAdjacentHits[directionCounter], directionCounter);
+        let attackOption2 = this.#traverseAttackPath(gameBoard, lastHitAdjacentCoordinates[oppositeDirectionCounter], oppositeDirectionCounter);
+        let attackOption3 = this.#traverseAttackPath(gameBoard, lastHitAdjacentCoordinates[perpendicularDirectionCounter], perpendicularDirectionCounter);
+        let attackOption4 = this.#traverseAttackPath(gameBoard, lastHitAdjacentCoordinates[oppositePerpendicularDirectionCounter], oppositePerpendicularDirectionCounter);
+
+        if (attackOption1 !== null) {
+            return attackOption1;
+        } else if (attackOption2 !== null) {
+            return attackOption2;
+        } else if (attackOption3 !== null) {
+            return attackOption3;
+        } else {
+            return attackOption4;
+        }
     }
 
     #traverseAttackPath(gameBoard, startingCoordinates, direction) {
