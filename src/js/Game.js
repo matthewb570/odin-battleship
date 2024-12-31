@@ -68,10 +68,10 @@ export default class Game {
     }
 
     #performComputerMove(gameBoard) {
-        let hasAttackBeenPerformed = gameBoard.lastCoordinatesAttacked[0] !== -1 && gameBoard.lastCoordinatesAttacked[1] !== -1;
-        let isLastAttackMiss = gameBoard.lastCoordinatesAttacked[0] !== -1 && gameBoard.lastCoordinatesAttacked[1] !== -1 && !gameBoard.doesShipExist(gameBoard.lastCoordinatesAttacked);
-        let isAttackInProgress = (gameBoard.lastHit[0] !== -1 && gameBoard.lastHit[1] !== -1) && !gameBoard.isShipSunk(gameBoard.lastHit);
-        let didLastAttackSinkShip = gameBoard.lastCoordinatesAttacked[0] !== -1 && gameBoard.lastCoordinatesAttacked[1] !== -1 && gameBoard.isShipSunk(gameBoard.lastCoordinatesAttacked);
+        const hasAttackBeenPerformed = gameBoard.lastCoordinatesAttacked[0] !== -1 && gameBoard.lastCoordinatesAttacked[1] !== -1;
+        const isLastAttackMiss = gameBoard.lastCoordinatesAttacked[0] !== -1 && gameBoard.lastCoordinatesAttacked[1] !== -1 && !gameBoard.doesShipExist(gameBoard.lastCoordinatesAttacked);
+        const isAttackInProgress = (gameBoard.lastHit[0] !== -1 && gameBoard.lastHit[1] !== -1) && !gameBoard.isShipSunk(gameBoard.lastHit);
+        const didLastAttackSinkShip = gameBoard.lastCoordinatesAttacked[0] !== -1 && gameBoard.lastCoordinatesAttacked[1] !== -1 && gameBoard.isShipSunk(gameBoard.lastCoordinatesAttacked);
         
         if (!hasAttackBeenPerformed || (isLastAttackMiss && !isAttackInProgress) || didLastAttackSinkShip) {
             gameBoard.receiveAttack(this.#generateRandomAttackCoordinates(gameBoard));
@@ -120,16 +120,16 @@ export default class Game {
         while(directionCounter < lastHitAdjacentHits.length && (lastHitAdjacentHits[directionCounter] === null || gameBoard.isShipSunk(lastHitAdjacentHits[directionCounter]))) {
             directionCounter++;
         }
-        let oppositeDirectionCounter = (directionCounter + 2) % lastHitAdjacentHits.length;
-        let perpendicularDirectionCounter = (directionCounter + 1) % lastHitAdjacentHits.length;
-        let oppositePerpendicularDirectionCounter = (perpendicularDirectionCounter + 2) % lastHitAdjacentHits.length;
+        const oppositeDirectionCounter = (directionCounter + 2) % lastHitAdjacentHits.length;
+        const perpendicularDirectionCounter = (directionCounter + 1) % lastHitAdjacentHits.length;
+        const oppositePerpendicularDirectionCounter = (perpendicularDirectionCounter + 2) % lastHitAdjacentHits.length;
                 
         const lastHitAdjacentCoordinates = gameBoard.getAdjacentCoordinates(gameBoard.lastHit);
 
-        let attackOption1 = this.#traverseAttackPath(gameBoard, lastHitAdjacentHits[directionCounter], directionCounter);
-        let attackOption2 = this.#traverseAttackPath(gameBoard, lastHitAdjacentCoordinates[oppositeDirectionCounter], oppositeDirectionCounter);
-        let attackOption3 = this.#traverseAttackPath(gameBoard, lastHitAdjacentCoordinates[perpendicularDirectionCounter], perpendicularDirectionCounter);
-        let attackOption4 = this.#traverseAttackPath(gameBoard, lastHitAdjacentCoordinates[oppositePerpendicularDirectionCounter], oppositePerpendicularDirectionCounter);
+        const attackOption1 = this.#traverseAttackPath(gameBoard, lastHitAdjacentHits[directionCounter], directionCounter);
+        const attackOption2 = this.#traverseAttackPath(gameBoard, lastHitAdjacentCoordinates[oppositeDirectionCounter], oppositeDirectionCounter);
+        const attackOption3 = this.#traverseAttackPath(gameBoard, lastHitAdjacentCoordinates[perpendicularDirectionCounter], perpendicularDirectionCounter);
+        const attackOption4 = this.#traverseAttackPath(gameBoard, lastHitAdjacentCoordinates[oppositePerpendicularDirectionCounter], oppositePerpendicularDirectionCounter);
 
         if (attackOption1 !== null) {
             return attackOption1;
@@ -153,11 +153,9 @@ export default class Game {
     }
 
     placeShip(coordinates, unplacedShipIndex, orientation) {
-        let success;
-        
-        let currentPlayer = this.getCurrentPlayer();
+        const currentPlayer = this.getCurrentPlayer();
 
-        success = currentPlayer.gameBoard.placeShip(coordinates, currentPlayer.unplacedShips[unplacedShipIndex].length, orientation);
+        const success = currentPlayer.gameBoard.placeShip(coordinates, currentPlayer.unplacedShips[unplacedShipIndex].length, orientation);
         
         if (success) {
             currentPlayer.unplacedShips.splice(unplacedShipIndex, 1);

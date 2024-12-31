@@ -3,7 +3,7 @@ import GameBoardDisplay from "./GameBoardDisplay.js";
 export default class GameDisplay {
 
     static draw(game, container) {
-        let reDrawFunction = () => {
+        const reDrawFunction = () => {
             GameDisplay.draw(game, container);
         }
 
@@ -11,7 +11,7 @@ export default class GameDisplay {
             container.removeChild(container.firstChild);
         }
 
-        let divGame = document.createElement("div");
+        const divGame = document.createElement("div");
         divGame.classList.add("game");
         if (game.hasUnplacedShips()) {
             divGame.appendChild(this.#createShipPlacementPhaseDisplay(game, reDrawFunction));
@@ -23,7 +23,7 @@ export default class GameDisplay {
     }
 
     static #createShipPlacementPhaseDisplay(game, reDrawFunction) {
-        let divShipPlacementPhaseDisplay = document.createElement("div");
+        const divShipPlacementPhaseDisplay = document.createElement("div");
         divShipPlacementPhaseDisplay.classList.add("ship-placement-phase-display");
 
         const currentPlayer = game.getCurrentPlayer();
@@ -38,7 +38,7 @@ export default class GameDisplay {
 
         divShipPlacementPhaseDisplay.appendChild(divShipPlacementDropdownGroup);
 
-        let tileClickHandler = (x, y) => {
+        const tileClickHandler = (x, y) => {
             if (game.placeShip([x, y], selectShips.value, selectDirection.value)) {
                 reDrawFunction();
             }
@@ -50,7 +50,7 @@ export default class GameDisplay {
     }
 
     static #createShipDropdown(currentPlayer) {
-        let selectShips = document.createElement("select");
+        const selectShips = document.createElement("select");
         for (const shipIndex in currentPlayer.unplacedShips) {
             const ship = currentPlayer.unplacedShips[shipIndex];
             const optionShip = document.createElement("option");
@@ -63,15 +63,15 @@ export default class GameDisplay {
     }
 
     static #createShipDirectionDropdown() {
-        let optionHorizontal = document.createElement("option");
+        const optionHorizontal = document.createElement("option");
         optionHorizontal.value = "horizontal";
         optionHorizontal.textContent = "Horizontal";
 
-        let optionVertical = document.createElement("option");
+        const optionVertical = document.createElement("option");
         optionVertical.value = "vertical";
         optionVertical.textContent = "Vertical";
 
-        let selectDirection = document.createElement("select");
+        const selectDirection = document.createElement("select");
         selectDirection.appendChild(optionHorizontal);
         selectDirection.appendChild(optionVertical);
 
@@ -79,12 +79,12 @@ export default class GameDisplay {
     }
 
     static #createBattlePhaseDisplay(game, reDrawFunction) {
-        let divBattlePhaseDisplay = document.createElement("div");
+        const divBattlePhaseDisplay = document.createElement("div");
         divBattlePhaseDisplay.classList.add("battle-phase-display");
 
         if (game.isOver()) {
             const currentPlayer = game.getCurrentPlayer();
-            let divGameResult = document.createElement("div");
+            const divGameResult = document.createElement("div");
             divGameResult.classList.add("game-result");
             divGameResult.textContent = `${currentPlayer.name} wins!`;
             divBattlePhaseDisplay.appendChild(divGameResult);
@@ -95,17 +95,17 @@ export default class GameDisplay {
     }
 
     static #createLabeledGameBoardList(game, reDrawFunction) {
-        let isPlayer1GameBoardDisabled = game.currentTurn !== 1 || game.isOver();
-        let isPlayer2GameBoardDisabled = game.currentTurn !== 0 || game.isOver();
+        const isPlayer1GameBoardDisabled = game.currentTurn !== 1 || game.isOver();
+        const isPlayer2GameBoardDisabled = game.currentTurn !== 0 || game.isOver();
         
-        let tileClickHandler = (isDisabled, x, y) => {
+        const tileClickHandler = (isDisabled, x, y) => {
             if (!isDisabled) {
                 game.receiveAttack([x, y]);
                 reDrawFunction();
             }
         }
 
-        let divLabeledGameBoardList = document.createElement("div");
+        const divLabeledGameBoardList = document.createElement("div");
         divLabeledGameBoardList.classList.add("labeled-game-board-list");
         divLabeledGameBoardList.appendChild(this.#createLabeledGameBoard(game.player1.name,
             game.player1.gameBoard,
@@ -121,11 +121,11 @@ export default class GameDisplay {
     }
 
     static #createLabeledGameBoard(playerName, gameBoard, highlightShips, tileClickHandler, isDisabled, flashLastCoordinatesAttacked) {
-        let divPlayerName = document.createElement("div");
+        const divPlayerName = document.createElement("div");
         divPlayerName.classList.add("player-name");
         divPlayerName.textContent = playerName;
         
-        let divLabeledGameBoard = document.createElement("div");
+        const divLabeledGameBoard = document.createElement("div");
         divLabeledGameBoard.classList.add("labeled-game-board");
         divLabeledGameBoard.appendChild(divPlayerName);
         GameBoardDisplay.draw(gameBoard, divLabeledGameBoard, highlightShips, tileClickHandler, isDisabled, flashLastCoordinatesAttacked);

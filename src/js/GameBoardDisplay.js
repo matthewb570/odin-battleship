@@ -1,7 +1,7 @@
 export default class GameBoardDisplay {
 
     static draw(gameBoard, container, highlightShips, tileClickHandler, isDisabled, flashLastCoordinatesAttacked) {
-        let divGameBoard = document.createElement("div");
+        const divGameBoard = document.createElement("div");
         divGameBoard.classList.add("game-board");
         if (isDisabled) {
             divGameBoard.classList.add("disabled");
@@ -12,7 +12,7 @@ export default class GameBoardDisplay {
     }
 
     static #createTileList(gameBoard, highlightShips, tileClickHandler, flashLastCoordinatesAttacked) {
-        let divTileList = document.createElement("div");
+        const divTileList = document.createElement("div");
         divTileList.classList.add("tile-list");
         for (let j = 0; j < gameBoard.getGameBoardWidth(); j++) {
             for (let i = 0; i < gameBoard.getGameBoardHeight(); i++) {

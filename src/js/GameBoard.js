@@ -25,7 +25,7 @@ export default class GameBoard {
     }
 
     placeShip(coordinates, length, orientation) {
-        let ship = new Ship(length);
+        const ship = new Ship(length);
 
         if (!this.#isShipPlacementValid(coordinates, length, orientation)) {
             return false;
@@ -49,7 +49,7 @@ export default class GameBoard {
         this.gameBoard[coordinates[0]][coordinates[1]][0] = true;
         this.lastCoordinatesAttacked = coordinates;
 
-        let ship = this.gameBoard[coordinates[0]][coordinates[1]][1];
+        const ship = this.gameBoard[coordinates[0]][coordinates[1]][1];
         if (ship !== undefined && ship !== null) {
             ship.hit();
             this.lastHit = coordinates;
@@ -62,7 +62,7 @@ export default class GameBoard {
     }
 
     doesShipExist(coordinates) {
-        let ship = this.gameBoard[coordinates[0]][coordinates[1]][1];
+        const ship = this.gameBoard[coordinates[0]][coordinates[1]][1];
         return ship !== undefined && ship !== null;
     }
 
@@ -89,7 +89,7 @@ export default class GameBoard {
     }
 
     isShipSunk(coordinates) {
-        let ship = this.gameBoard[coordinates[0]][coordinates[1]][1];
+        const ship = this.gameBoard[coordinates[0]][coordinates[1]][1];
         if (ship === undefined || ship === null) {
             return false;
         }
