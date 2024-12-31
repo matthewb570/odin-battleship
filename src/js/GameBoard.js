@@ -6,7 +6,7 @@ class GameBoard {
     
     gameBoard;
     ships;
-    lastCoordinatesAttacked; // TODO: Add tests for this
+    lastCoordinatesAttacked;
     lastHit; // TODO: Add tests for this
 
     constructor() {

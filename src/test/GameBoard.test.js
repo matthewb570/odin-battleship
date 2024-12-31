@@ -187,6 +187,38 @@ describe("game board - receive attacks", () => {
         gameBoard.receiveAttack([0, 2]);
         expect(gameBoard.areAllShipsSunk()).toBeFalsy();
     });
+
+    test("last coordinates attacked updated when attack received - example 1", () => {
+        const gameBoard = new GameBoard();
+        gameBoard.receiveAttack([0, 0]);
+        expect(gameBoard.lastCoordinatesAttacked[0]).toBe(0);
+        expect(gameBoard.lastCoordinatesAttacked[1]).toBe(0);
+    });
+
+    test("last coordinates attacked updated when attack received - example 2", () => {
+        const gameBoard = new GameBoard();
+        gameBoard.receiveAttack([0, 0]);
+        gameBoard.receiveAttack([5, 4]);
+        expect(gameBoard.lastCoordinatesAttacked[0]).toBe(5);
+        expect(gameBoard.lastCoordinatesAttacked[1]).toBe(4);
+    });
+
+    test("last coordinates attacked not updated when attack received is out of bounds", () => {
+        const gameBoard = new GameBoard();
+        gameBoard.receiveAttack([5, 4]);
+        gameBoard.receiveAttack([10, 5]);
+        expect(gameBoard.lastCoordinatesAttacked[0]).toBe(5);
+        expect(gameBoard.lastCoordinatesAttacked[1]).toBe(4);
+    });
+
+    test("last coordinates attacked not updated when attack received is on a space that was already attacked", () => {
+        const gameBoard = new GameBoard();
+        gameBoard.receiveAttack([5, 4]);
+        gameBoard.receiveAttack([1, 2]);
+        gameBoard.receiveAttack([5, 4]);
+        expect(gameBoard.lastCoordinatesAttacked[0]).toBe(1);
+        expect(gameBoard.lastCoordinatesAttacked[1]).toBe(2);
+    });
 });
 
 describe("game board - adjacency", () => {
