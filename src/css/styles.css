@@ -33,6 +33,10 @@ body {
     background-color: transparent;
 }
 
+.tile.sunk {
+    background-color: rgb(110, 15, 15);
+}
+
 .tile.hit {
     background-color: rgb(205, 30, 30);
 }

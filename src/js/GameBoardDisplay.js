@@ -18,6 +18,7 @@ export default class GameBoardDisplay {
             for (let i = 0; i < gameBoard.getGameBoardHeight(); i++) {
                 divTileList.appendChild(this.#createTile(gameBoard.areCoordinatesAttacked([i, j]),
                 gameBoard.doesShipExist([i, j]),
+                gameBoard.isShipSunk([i, j]),
                 highlightShips,
                 () => tileClickHandler(i, j),
                 flashLastCoordinatesAttacked && i === gameBoard.lastCoordinatesAttacked[0] && j === gameBoard.lastCoordinatesAttacked[1]));
@@ -27,13 +28,16 @@ export default class GameBoardDisplay {
         return divTileList;
     }
 
-    static #createTile(isAttacked, containsShip, highlightShip, clickHandler, flash) {
+    static #createTile(isAttacked, containsShip, containsSunkenShip, highlightShip, clickHandler, flash) {
         const divTile = document.createElement("div");
         divTile.classList.add("tile");
 
         let colorClass;
         let alternateClass;
-        if (isAttacked && containsShip) {
+        if (isAttacked && containsSunkenShip) {
+            colorClass = "sunk";
+            alternateClass = highlightShip ? "ship" : "neutral";
+        } else if (isAttacked && containsShip) {
             colorClass = "hit";
             alternateClass = highlightShip ? "ship" : "neutral";
         } else if (isAttacked) {
