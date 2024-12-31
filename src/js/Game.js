@@ -53,8 +53,16 @@ export default class Game {
     }
 
     #performComputerShipPlacements(player) {
+        const orientationOptions = ["horizontal", "vertical"];
+
         for (let i = 0; i < player.unplacedShips.length; i++) {
-            player.gameBoard.placeShip([i, i], player.unplacedShips[i].length, "horizontal");
+            const orientationIndex = NumberUtils.getRandomIntegerInRange(0, orientationOptions.length - 1);
+            let randomX = NumberUtils.getRandomIntegerInRange(0, player.gameBoard.getGameBoardWidth());
+            let randomY = NumberUtils.getRandomIntegerInRange(0, player.gameBoard.getGameBoardHeight());
+            while (!player.gameBoard.placeShip([randomX, randomY], player.unplacedShips[i].length, orientationOptions[orientationIndex])) {
+                randomX = NumberUtils.getRandomIntegerInRange(0, player.gameBoard.getGameBoardWidth());
+                randomY = NumberUtils.getRandomIntegerInRange(0, player.gameBoard.getGameBoardHeight());
+            }
         }
         player.unplacedShips = new Array();
     }
