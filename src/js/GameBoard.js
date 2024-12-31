@@ -7,7 +7,7 @@ class GameBoard {
     gameBoard;
     ships;
     lastCoordinatesAttacked;
-    lastHit; // TODO: Add tests for this
+    lastHit;
 
     constructor() {
         this.gameBoard = new Array(GAME_BOARD_WIDTH_HEIGHT);

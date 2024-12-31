@@ -219,6 +219,46 @@ describe("game board - receive attacks", () => {
         expect(gameBoard.lastCoordinatesAttacked[0]).toBe(1);
         expect(gameBoard.lastCoordinatesAttacked[1]).toBe(2);
     });
+
+    test("last hit updated when hit is recorded - example 1", () => {
+        const gameBoard = new GameBoard();
+        gameBoard.placeShip([0, 0], 3, "horizontal");
+        gameBoard.receiveAttack([1, 0]);
+        expect(gameBoard.lastHit).toEqual([1, 0]);
+    });
+
+    test("last hit updated when hit is recorded - example 2", () => {
+        const gameBoard = new GameBoard();
+        gameBoard.placeShip([0, 0], 3, "horizontal");
+        gameBoard.receiveAttack([1, 0]);
+        gameBoard.receiveAttack([2, 0]);
+        expect(gameBoard.lastHit).toEqual([2, 0]);
+    });
+
+    test("last hit not updated when miss is recorded", () => {
+        const gameBoard = new GameBoard();
+        gameBoard.placeShip([0, 0], 3, "horizontal");
+        gameBoard.receiveAttack([1, 0]);
+        gameBoard.receiveAttack([5, 5]);
+        expect(gameBoard.lastHit).toEqual([1, 0]);
+    });
+
+    test("last hit not updated when attack received is out of bounds", () => {
+        const gameBoard = new GameBoard();
+        gameBoard.placeShip([0, 0], 3, "horizontal");
+        gameBoard.receiveAttack([1, 0]);
+        gameBoard.receiveAttack([10, 5]);
+        expect(gameBoard.lastHit).toEqual([1, 0]);
+    });
+
+    test("last hit not updated when tile was already hit previously", () => {
+        const gameBoard = new GameBoard();
+        gameBoard.placeShip([0, 0], 3, "horizontal");
+        gameBoard.receiveAttack([1, 0]);
+        gameBoard.receiveAttack([2, 0]);
+        gameBoard.receiveAttack([1, 0]);
+        expect(gameBoard.lastHit).toEqual([2, 0]);
+    });
 });
 
 describe("game board - adjacency", () => {
