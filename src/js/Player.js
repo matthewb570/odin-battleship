@@ -1,7 +1,7 @@
 import GameBoard from "./GameBoard.js";
 import Ship from "./Ship.js";
 
-class Player {
+export default class Player {
 
     name;
     isHuman;
@@ -24,5 +24,3 @@ class Player {
         return this.unplacedShips.length > 0;
     }
 }
-
-export default Player;

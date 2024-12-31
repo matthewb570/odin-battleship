@@ -1,4 +1,4 @@
-class Ship {
+export default class Ship {
     name;
     length;
     hitCount;
@@ -21,5 +21,3 @@ class Ship {
         this.hitCount++;
     }
 }
-
-export default Ship;

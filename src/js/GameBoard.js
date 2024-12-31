@@ -2,7 +2,7 @@ import Ship from "./Ship.js";
 
 const GAME_BOARD_WIDTH_HEIGHT = 10;
 
-class GameBoard {
+export default class GameBoard {
     
     gameBoard;
     ships;
@@ -201,5 +201,3 @@ class GameBoard {
         return adjacentCoordinates;
     }
 }
-
-export default GameBoard;
